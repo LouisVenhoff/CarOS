@@ -1,3 +1,4 @@
+import 'package:car_os/pages/settings/settingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,6 +8,7 @@ class ContentSection extends StatefulWidget {
 }
 
 class _contentSection extends State<ContentSection> {
+  
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -19,7 +21,12 @@ class _contentSection extends State<ContentSection> {
               color: Colors.white,
             ),
           ),
-          actions: const [Icon(Icons.bluetooth, size: 50)],
+          actions: [
+            InkWell(
+              child: const Icon(Icons.settings, size: 50, color: Colors.white),
+              onTap: () => {}
+            )
+          ],
         ),
       ),
     );

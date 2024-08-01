@@ -17,9 +17,17 @@ class _telemetryDisplayState extends State<TelemetryDisplay>{
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        color: Colors.black,
+        border: Border(
+          right: BorderSide(
+            width: 20,
+            color: Colors.black,
+          ),
+        ),
+      ),
       padding: EdgeInsets.only(top: 90),
       width: 400,
-      color: Colors.black,
       child: Column(
         children: [
           SpeedDisplay(),
