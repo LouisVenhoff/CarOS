@@ -9,6 +9,16 @@ class ContentSection extends StatefulWidget {
 
 class _contentSection extends State<ContentSection> {
   
+  Widget currentPage = Container();
+
+
+  void _openSettings(){
+    setState((){
+      currentPage = SettingsPage();
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -24,10 +34,11 @@ class _contentSection extends State<ContentSection> {
           actions: [
             InkWell(
               child: const Icon(Icons.settings, size: 50, color: Colors.white),
-              onTap: () => {}
+              onTap: () => {_openSettings()}
             )
           ],
         ),
+        body: currentPage,
       ),
     );
   }
