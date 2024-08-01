@@ -1,3 +1,4 @@
+import 'package:car_os/components/contentSection/contentSection.dart';
 import 'package:car_os/components/telemetryDisplay/telemetryDisplay.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: TelemetryDisplay(),
+        body: Row(
+          children: [
+            TelemetryDisplay(),
+            ContentSection(),
+          ],
+        ),
       ),
     );
   }
