@@ -1,4 +1,4 @@
-import 'package:car_os/pages/settings/settingsPage.dart';
+import 'package:car_os/components/contentSection/settings/settingsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,11 +11,10 @@ class _contentSection extends State<ContentSection> {
   
   Widget currentPage = Container();
 
-
-  void _openSettings(){
-    setState((){
-      currentPage = SettingsPage();
-    });
+  void _pushSettings(){
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => SettingsPage())
+    );
   }
 
 
@@ -34,7 +33,7 @@ class _contentSection extends State<ContentSection> {
           actions: [
             InkWell(
               child: const Icon(Icons.settings, size: 50, color: Colors.white),
-              onTap: () => {_openSettings()}
+              onTap: _pushSettings,
             )
           ],
         ),
