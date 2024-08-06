@@ -36,6 +36,17 @@ class _bluetoothSettings extends State<BluetoothSettings> {
     });
   }
 
+  void _startConnection(OdbDevice device) async {
+    //TODO: Return stream with map of sensor values
+    bool result = await device.connect();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Connection Successfull: $result")
+      ),
+    );
+  }
+
   ListView _buildDeviceList(){
     return ListView.builder(
           itemCount: foundDevices.length,
@@ -45,8 +56,7 @@ class _bluetoothSettings extends State<BluetoothSettings> {
               return ListTile(
                   title: Text(foundDevices[index].name, style: textStyle),
                   onTap: () {
-                    print(foundDevices[index].name);
-                    print(foundDevices[index].address);
+                    _startConnection(foundDevices[index]);
                   });
             }
           },
