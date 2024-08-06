@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:car_os/classes/blDriver.dart';
 import 'package:car_os/classes/odbDevice.dart';
+import 'package:car_os/classes/permissions.dart';
 import 'package:flutter/material.dart';
 
 class BluetoothSettings extends StatefulWidget {
@@ -19,6 +20,7 @@ class _bluetoothSettings extends State<BluetoothSettings> {
   @override
   void initState() {
     _initBluetooth();
+    checkPermissions();
   }
 
   void _initBluetooth() async {
