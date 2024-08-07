@@ -24,7 +24,14 @@ class BlDriver{
 
   
   
-  StreamController<OdbDevice> discover(){
+  Future<StreamController<OdbDevice>> discover() async  {
+    
+    bool bluetoothEnabled = await FlutterBluetoothSerial.instance.isEnabled ?? false;
+
+    if(!bluetoothEnabled){
+      await FlutterBluetoothSerial.instance.requestEnable();
+    }
+
     _isDiscovering = true;
     _hasDiscovered = true;
     
