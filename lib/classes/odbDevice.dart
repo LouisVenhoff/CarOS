@@ -58,21 +58,28 @@ class OdbDevice{
   }
 
 
-  void _initializeAdapter(){
-
+  void _initializeAdapter() async {
+    if(_connectionState != BlState.CONNECTED){
+      //TODO: Send error dialog
+      return;
+    }
+    await sendASCIIMessage("atz");
+    await sendASCIIMessage("at11");
+    await sendASCIIMessage("ath1");
+    await sendASCIIMessage("ATH0");
   }
 
   Future<String> sendASCIIMessage(String message) async {
     //TODO: Send messagt to bluetooth Device
     Completer<String> completer = new Completer<String>();
 
-    // _blConnection.output.add(ascii.encode(message));
+    print(ascii.encode(message));
 
-    // _blConnection.input!.listen((Uint8List data){
-    //   completer.complete(ascii.decode(data));
-    // });
+    _blConnection.output.add(ascii.encode(message));
 
-    completer.complete("It works!");
+    _blConnection.input!.listen((Uint8List data){
+      completer.complete(ascii.decode(data));
+    });
 
     return completer.future;
   }
