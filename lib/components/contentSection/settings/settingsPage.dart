@@ -1,4 +1,5 @@
 import 'package:car_os/components/contentSection/settings/bluetooth/bluetoothSettings.dart';
+import 'package:car_os/components/contentSection/settings/manualMessenger/manualMessenger.dart';
 import 'package:flutter/material.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -24,6 +25,13 @@ class _settingsPage extends State<SettingsPage> {
     );
   }
 
+  void _openManualMessenger(){
+    print("Opening Manual messenger!");
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => ManualMessenger()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +45,8 @@ class _settingsPage extends State<SettingsPage> {
               Divider(),
               _buildSettingsElement(
                   "Bluetooth", Icons.bluetooth, () => {_openSettings()}),
+              Divider(),
+              _buildSettingsElement("Manual commands", Icons.logo_dev_rounded, () => {_openManualMessenger()}),
               Divider(),
             ])));
   }

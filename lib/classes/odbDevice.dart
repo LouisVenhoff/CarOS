@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 
 enum BlState{
@@ -22,6 +23,8 @@ class OdbDevice{
   Function? _onStateChange = null;
 
   OdbDevice({required this.name, required this.address});
+
+  String? lastAnswer = "";
 
   get connected{
     return _connectionState;
@@ -58,30 +61,67 @@ class OdbDevice{
   }
 
 
-  void _initializeAdapter() async {
+  Future<String> initializeAdapter() async {
+    print("Initializing adapter!");
     if(_connectionState != BlState.CONNECTED){
       //TODO: Send error dialog
-      return;
+      throw "Error";
     }
-    await sendASCIIMessage("atz");
-    await sendASCIIMessage("at11");
-    await sendASCIIMessage("ath1");
-    await sendASCIIMessage("ATH0");
+    // await sendASCIIMessage("atz");
+    // await sendASCIIMessage("at11");
+    // await sendASCIIMessage("ath1");
+
+    addBluetoothListener();
+
+    String data = "Hello World!";
+    return data;
+  }
+
+  void addBluetoothListener(){
+    _blConnection.input!.listen((Uint8List data){
+      lastAnswer = ascii.decode(data);
+    });
   }
 
   Future<String> sendASCIIMessage(String message) async {
     //TODO: Send messagt to bluetooth Device
     Completer<String> completer = new Completer<String>();
+    
+    lastAnswer = null;
 
-    print(ascii.encode(message));
+    int retryCount = 0;
+
+    print("Hex zahlen: ");
+    print(toHex(message));
 
     _blConnection.output.add(ascii.encode(message));
 
-    _blConnection.input!.listen((Uint8List data){
-      completer.complete(ascii.decode(data));
-    });
+    while(lastAnswer == null){
+      await Future.delayed(const Duration(seconds: 1));
+      retryCount++;
+
+      if(retryCount >= 10){
+        return "";
+      }
+    }
+
+    completer.complete(lastAnswer);
 
     return completer.future;
+  }
+
+  Uint8List toHex(String message){
+    Uint8List asciiMessage = ascii.encode(message);
+
+    List<int> hexValues = [];
+
+    asciiMessage.forEach((int value) {
+      String hexValue = value.toRadixString(16).padLeft(2, "0");
+      
+      hexValues.add(int.parse("0x$hexValue"));
+    });
+
+    return Uint8List.fromList(hexValues);
   }
 
 }
